@@ -1,0 +1,36 @@
+diff --git a/src/lyrics_fetcher.cpp b/src/lyrics_fetcher.cpp
+index 12a6fb2f..f41a593c 100644
+--- a/src/lyrics_fetcher.cpp
++++ b/src/lyrics_fetcher.cpp
+@@ -117,15 +117,18 @@ LyricsFetcher::Result LyricsFetcher::fetch(const std::string &artist,
+ std::vector<std::string> LyricsFetcher::getContent(const char *regex_,
+                                                    const std::string &data)
+ {
++        //std::ofstream out("log.txt");
+ 	std::vector<std::string> result;
+ 	boost::regex rx(regex_);
+ 	auto first = boost::sregex_iterator(data.begin(), data.end(), rx);
+ 	auto last = boost::sregex_iterator();
++        //out << "parsing lyrics content:\n";
+ 	for (; first != last; ++first)
+ 	{
+ 		std::string content;
+ 		for (size_t i = 1; i < first->size(); ++i)
+ 			content += first->str(i);
++                //out << content;
+ 		result.push_back(std::move(content));
+ 	}
+ 	return result;
+diff --git a/src/lyrics_fetcher.h b/src/lyrics_fetcher.h
+index 672352ff..202394ab 100644
+--- a/src/lyrics_fetcher.h
++++ b/src/lyrics_fetcher.h
+@@ -110,7 +110,7 @@ struct AzLyricsFetcher : public GoogleLyricsFetcher
+ 	virtual const char *name() const override { return "azlyrics.com"; }
+ 	
+ protected:
+-	virtual const char *regex() const override { return "<div class=\"lyricsh\">.*?</h2>.*<div>(.*?)</div>"; }
++	virtual const char *regex() const override { return "<!-- Usage.*?-->(.*?)</div>"; }
+ };
+ 
+ struct GeniusFetcher : public GoogleLyricsFetcher

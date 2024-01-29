@@ -2,7 +2,7 @@
 # Contributor: rich_o <aurua@riseup.net>
 
 pkgname=ncmpcpp-git
-pkgver=0.9.2.r3.g689771c2
+pkgver=0.9.2.r19.g9f44edf0
 pkgrel=1
 epoch=2
 pkgdesc='An almost exact clone of ncmpc with some new features (git version)'
@@ -14,12 +14,15 @@ makedepends=('git' 'boost')
 provides=('ncmpcpp')
 conflicts=('ncmpcpp')
 source=('git+https://github.com/arybczak/ncmpcpp.git'
-        '010-ncmpcpp-use-arch-flags.patch')
+        '010-ncmpcpp-use-arch-flags.patch'
+        'lyrics_fetcher.patch')
 sha256sums=('SKIP'
-            '1907468f83dbd733e20e5d56b633eeee58a507f0767789fd0583e55d8761d0e7')
+            '1907468f83dbd733e20e5d56b633eeee58a507f0767789fd0583e55d8761d0e7'
+            '592f81623e316275bbdcc4361ffabfaa136fc269aed58c7323fb49de36b0ad0e')
 
 prepare() {
     patch -d ncmpcpp -Np1 -i "${srcdir}/010-ncmpcpp-use-arch-flags.patch"
+    patch -d ncmpcpp -Np1 -i "${srcdir}/lyrics_fetcher.patch"
     ncmpcpp/autogen.sh
 }
 
